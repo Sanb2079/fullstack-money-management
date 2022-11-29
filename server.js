@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 8000;
 app.use(morgan("dev"));
 // app.use(helmet());
 app.use(express.json());
-// app.use(cors());
+app.use(cors());
 //db connect
 import connectDb from "./src/config/dbConfig.js";
 connectDb();

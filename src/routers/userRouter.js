@@ -19,9 +19,8 @@ router.post("/", async (req, res, next) => {
   } catch (error) {
     console.log(error.message);
 
-    error.code = 500;
-
     if (error.message.includes("E11000 duplicate key error collection")) {
+      error.code = 200;
       error.message =
         "Email already exists.Please use different email id or use the same email id to login";
     }
