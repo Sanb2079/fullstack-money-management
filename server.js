@@ -19,13 +19,23 @@ connectDb();
 import userRouter from "./src/routers/userRouter.js";
 app.use("/api/v1/user", userRouter);
 
-//for path error to end pts
-app.use("*", (req, res) => {
-  res.json({
-    status: "error",
-    message: "invalid request",
-  });
+//catch when routrer is not found
+// catch when router is not found
+app.use("*", (req, res, next) => {
+  const error = {
+    message: "404 page not found!",
+    code: 200,
+  };
+  next(error);
 });
+
+// //for path error to end pts
+// app.use("*", (req, res) => {
+//   res.json({
+//     status: "error",
+//     message: "invalid request",
+//   });
+// });
 
 //global errorhandler
 app.use((error, req, res, next) => {
