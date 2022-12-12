@@ -18,6 +18,12 @@ connectDb();
 //routers: creating end points
 import userRouter from "./src/routers/userRouter.js";
 app.use("/api/v1/user", userRouter);
+//for transaction
+import transRouter from "./src/routers/transRouter.js";
+import { isAuth } from "./src/middleware/authMiddleware.js";
+
+//### isAuth is middle ware ;this cheks for Authorisation
+app.use("/api/v1/transaction", isAuth, transRouter);
 
 //catch when routrer is not found
 // catch when router is not found
