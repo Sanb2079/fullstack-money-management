@@ -1,9 +1,11 @@
+import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
 import cors from "cors";
 const app = express();
-
+import path from "path";
 const PORT = process.env.PORT || 8000;
 
 //middleware
@@ -24,6 +26,22 @@ import { isAuth } from "./src/middleware/authMiddleware.js";
 
 //### isAuth is middle ware ;this cheks for Authorisation
 app.use("/api/v1/transaction", isAuth, transRouter);
+
+// redirect to dashboard ; after putting in build folder in backend ;
+//****NOTE: app.use("/", (req, res)  should be PLACED below this code, because it maynot find ("/") when redirecting from dashboard
+
+// to independently run FrontEnd and putting inside bckend//from now, no need to run frontend seperately
+const __dirname = path.resolve();
+app.use(express.static(path.join(__dirname, "/client/build")));
+
+app.get("/dashboard", (req, res) => {
+  res.redirect("/");
+});
+
+///if above code doesnot run//old method
+app.use("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "/build/index.html"));
+});
 
 //catch when routrer is not found
 // catch when router is not found
@@ -51,6 +69,10 @@ app.use((error, req, res, next) => {
     message: error.message,
   });
 });
+
+/////
+
+///
 
 app.listen(PORT, (error) => {
   error
