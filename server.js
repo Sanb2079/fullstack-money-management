@@ -63,8 +63,8 @@ app.use("*", (req, res, next) => {
 
 //global errorhandler
 app.use((error, req, res, next) => {
-  const code = error.code || 500;
-  res.status(code).json({
+  // const code = error.code || 500;
+  res.json({
     status: "error",
     message: error.message,
   });
